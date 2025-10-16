@@ -30,8 +30,9 @@ const userSchema = new mongoose.Schema({
   // Company Information
   company: {
     type: String,
-    required: true,
-    trim: true
+    required: false,
+    trim: true,
+    default: ''
   },
   jobTitle: {
     type: String,
@@ -39,13 +40,14 @@ const userSchema = new mongoose.Schema({
   },
   industry: {
     type: String,
-    required: true,
+    required: false,
     enum: [
       'Technology', 'Healthcare', 'Finance', 'Education', 'Manufacturing',
       'Retail', 'Real Estate', 'Consulting', 'Marketing', 'Legal',
       'Construction', 'Transportation', 'Energy', 'Media', 'Government',
       'Non-Profit', 'Agriculture', 'Hospitality', 'Sports', 'Entertainment'
-    ]
+    ],
+    default: 'Technology'
   },
   
   // Preferences
