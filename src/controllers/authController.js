@@ -11,12 +11,14 @@ class AuthController {
       const {
         firstName,
         lastName,
-        email,
+        email: rawEmail,
         password,
         company,
         jobTitle,
         industry
       } = req.body;
+
+      const email = (rawEmail || '').toLowerCase().trim();
 
       // Check if user already exists
       const existingUser = await User.findOne({ email });
@@ -75,7 +77,9 @@ class AuthController {
    */
   async login(req, res) {
     try {
-      const { email, password } = req.body;
+      const rawEmail = req.body.email || '';
+      const email = rawEmail.toLowerCase().trim();
+      const { password } = req.body;
 
       // Find user
       const user = await User.findOne({ email });
