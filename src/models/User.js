@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
     lowercase: true,
     trim: true
   },
@@ -166,8 +167,8 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Indexes
-userSchema.index({ email: 1 });
+// Indexes (avoid duplicate definitions)
+// Email index is defined via the field's `index: true` above
 userSchema.index({ company: 1 });
 userSchema.index({ industry: 1 });
 
