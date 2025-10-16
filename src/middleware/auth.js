@@ -4,6 +4,23 @@ const User = require('../models/User');
 const authMiddleware = async (req, res, next) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '');
+    // Public beta mode: allow unauthenticated access by attaching a demo user
+    if (!token && process.env.PUBLIC_BETA === 'true') {
+      const demoEmail = 'demo@beta.local';
+      let demoUser = await User.findOne({ email: demoEmail });
+      if (!demoUser) {
+        demoUser = await User.create({
+          firstName: 'Demo',
+          lastName: 'User',
+          email: demoEmail,
+          password: 'demo-password',
+          company: '',
+          industry: 'Technology'
+        });
+      }
+      req.user = demoUser;
+      return next();
+    }
     
     if (!token) {
       return res.status(401).json({
